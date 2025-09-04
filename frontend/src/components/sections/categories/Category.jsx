@@ -1,5 +1,5 @@
 import React from 'react'
-import SectionHeading from '../sectionHeading/SectionHeading'
+import SectionHeading from '../../sectionHeading/SectionHeading'
 import Card from '../../card/Card'
 const Category = ({title,data}) => {
   return (
