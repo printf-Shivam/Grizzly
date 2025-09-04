@@ -10,7 +10,7 @@ import 'react-multi-carousel/lib/styles.css';
 import { responsive } from '../../utils/Section.constants';
 import Joggers from '../../assets/img/joggers.jpg';
 import Kurtis from '../../assets/img/kurtis.jpg';
-// import './NewArrivals.css';
+import './NewArrivals.css';
 
 const items = [{
     'title':'Jeans',

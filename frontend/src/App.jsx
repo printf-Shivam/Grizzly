@@ -3,7 +3,8 @@ import HeroSection from './components/herosection/HeroSection'
 import Navigation from './components/navigation/Navigation'
 import { BrowserRouter as Router } from 'react-router-dom'
 import NewArrivals from './components/sections/NewArrivals'
-
+import Footer from './components/footer/Footer'
+import content from "./data/content.json"
 
 export default function App() {
   return (
@@ -11,6 +12,7 @@ export default function App() {
       <Navigation/>
       <HeroSection/>
       <NewArrivals />
+      <Footer content={content?.footer}/>
     </Router>
 
   )
