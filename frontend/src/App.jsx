@@ -9,13 +9,12 @@ import Category from './components/sections/categories/Category'
 
 export default function App() {
   return (
-        <Router>
-      <Navigation/>
+        <>
       <HeroSection/>
       <NewArrivals />
       {content?.pages?.shop?.sections && content?.pages?.shop?.sections?.map((item, index) => <Category key={item?.title+index} {...item} />)}
       <Footer content={content?.footer}/>
-    </Router>
+    </>
 
   )
 }
