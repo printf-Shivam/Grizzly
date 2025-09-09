@@ -12,6 +12,7 @@ import SvgReturn from '../../components/common/SvgReturn';
 import SectionHeading from '../../components/sectionHeading/SectionHeading';
 import ProductCard from '../ProductListPage/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../store/features/cart';
 
 
 const categories = content?.categories;
@@ -40,7 +41,9 @@ const ProductDetails = () => {
   const [image, setImage] = useState();
   const [breadCrumbLinks, setBreadCrumbLink] = useState([]);
   const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cartState?.cart);
 
+  console.log("Cart items ",cartItems);
 
   const similarProducts = useMemo(()=>{
     return content?.products?.filter((item)=> (item?.type_id === product?.type_id && item?.id !== product?.id));
