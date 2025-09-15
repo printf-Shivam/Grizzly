@@ -87,7 +87,7 @@ const ProductDetails = () => {
             <div className='flex flex-row md:flex-col justify-center h-full'>
               {
                 product?.images[0]?.startsWith('http') && product?.images?.map((item, index) => (
-                  <button key={index} onClick={() => setImage(item)} className='rounded-lg w-fit p-2 mb-2'><img src={item} className='h-[60px] w-[60px] rounded-lg bg-cover bg-center hover:scale-105 hover:border' alt={'sample-' + index} /></button>
+                  <button key={index} onClick={() => setImage(item)} className='rounded-lg w-fit p-2 mb-2'><img src={item} className='h-[60px] w-[50px] rounded-lg bg-cover bg-center hover:scale-105 hover:border' alt={'sample-' + index} /></button>
                 ))
               }
             </div>
