@@ -143,7 +143,7 @@ const ProductDetails = () => {
     <SectionHeading title={'Product Description'}/>
     <div className='md:w-[50%] w-full p-2'>
     
-    <p className='px-8'>{product.description}</p>
+    <p className='px-8'>{product?.description}</p>
     </div>
 
     <SectionHeading title={'Similar Products'}/>
