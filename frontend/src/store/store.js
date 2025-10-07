@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
     productState: productReducer,
     cartState: cartReducer,
     categoryState: categoryReducer,
-    commonReducer: commonReducer
+    commonState: commonReducer
 })
 
 const store = configureStore({
