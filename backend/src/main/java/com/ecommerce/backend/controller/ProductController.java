@@ -22,8 +22,15 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(required = false, name = "categoryId")UUID categoryId, @RequestParam(required = false) UUID typeId){
-        List<ProductDto> productList = productService.getAllProduct(categoryId, typeId);
+    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(required = false, name = "categoryId")UUID categoryId, @RequestParam(required = false,name = "typeId") UUID typeId, @RequestParam(required = false) String slug){
+        List<ProductDto> productList = new ArrayList<>();
+
+        if(StringUtils.isNotBlank(slug)){
+            ProductDto productDto = productService.getProductBySlug(slug);
+            productList.add(productDto);
+        }
+
+        productList = productService.getAllProducts(categoryId, typeId);
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 
@@ -31,5 +38,11 @@ public class ProductController {
     public ResponseEntity<Product> createProduct(@RequestBody ProductDto productdto ){
         Product product = productService.addProduct(productdto);
         return new ResponseEntity<Product>(product, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDto> getProductById(@PathVariable UUID id){
+        ProductDto productDto = productService.getProductById(id);
+        return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
 }

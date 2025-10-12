@@ -29,6 +29,7 @@ public class ProductMapper {
         product.setNewArrival(productDto.isNewArrival());
         product.setPrice(productDto.getPrice());
         product.setRating(productDto.getRating());
+        product.setSlug(productDto.getSlug());
 
         Category category= categoryService.getCategory(productDto.getCategoryId());
         if(category!=null){
@@ -74,7 +75,7 @@ public class ProductMapper {
         return products.stream().map(this::mapProductToDto).toList();
     }
 
-    private ProductDto mapProductToDto(Product product) {
+    public ProductDto mapProductToDto(Product product) {
         return ProductDto.builder()
                 .id(product.getId())
                 .brand(product.getBrand())
@@ -82,6 +83,7 @@ public class ProductMapper {
                 .price(product.getPrice())
                 .isNewArrival((product.isNewArrival()))
                 .rating(product.getRating())
+                .slug(product.getSlug())
                 .description(product.getDescription())
                 .thumbnail(getProductThumbnail(product.getResources()))
                 .build();
@@ -97,6 +99,33 @@ public class ProductMapper {
                         : resources.get(0).getUrl());
     }
 
+
+    public List<ProductVariantDto> mapProductVariansListToDto(List<ProductVariant> productVariants) {
+        return productVariants.stream().map(this::mapProductVariantDto).toList();
+    }
+
+    private ProductVariantDto mapProductVariantDto(ProductVariant productVariant) {
+        return ProductVariantDto.builder()
+                .color(productVariant.getColor())
+                .id(productVariant.getId())
+                .size(productVariant.getSize())
+                .stockQuantitiy(productVariant.getStockQuantity())
+                .build();
+    }
+
+    public List<ProductResourceDto> mapProductResourcesListDto(List<Resources> resources) {
+        return resources.stream().map(this::mapResourceToDto).toList();
+    }
+
+    private ProductResourceDto mapResourceToDto(Resources resources) {
+        return ProductResourceDto.builder()
+                .id(resources.getId())
+                .name(resources.getName())
+                .url(resources.getUrl())
+                .type(resources.getType())
+                .isPrimary(resources.isPrimary())
+                .build();
+    }
 
 }
 

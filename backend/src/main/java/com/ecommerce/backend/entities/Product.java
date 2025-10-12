@@ -38,6 +38,9 @@ public class Product {
     @Column
     private Float rating;
 
+    @Column(nullable = false, unique = true)
+    private String slug;
+    
     @Column(nullable = false)
     private boolean isNewArrival;
 

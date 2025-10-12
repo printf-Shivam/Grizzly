@@ -1,4 +1,4 @@
-package com.ecommerce.backend.respository;
+package com.ecommerce.backend.repository;
 
 import com.ecommerce.backend.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,4 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, UUID>, JpaSpecificationExecutor<Product> {
+Product findBySlug(String slug);
+
 }

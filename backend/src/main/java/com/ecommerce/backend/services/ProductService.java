@@ -10,4 +10,8 @@ public interface ProductService {
 
     public Product addProduct(ProductDto productdto);
     public List<ProductDto> getAllProduct(UUID categoryId, UUID typeId);
+    ProductDto getProductBySlug(String slug);
+    
+    ProductDto getProductById(UUID id);
+
 }

@@ -1,4 +1,4 @@
-package com.ecommerce.backend.respository;
+package com.ecommerce.backend.repository;
 
 import com.ecommerce.backend.entities.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
