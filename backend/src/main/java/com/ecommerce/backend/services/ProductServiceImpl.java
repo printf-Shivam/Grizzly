@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getAllProduct(UUID categoryId, UUID typeId) {
+    public List<ProductDto> getAllProducts(UUID categoryId, UUID typeId) {
         Specification<Product> productSpecification = Specification.where(null);
 
         if (null != categoryId) {
@@ -64,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
     
     @Override
     public ProductDto getProductById(UUID id) {
-        Product product = productRepository.findById(id).orElseThrow(()-> new ResourceNotFoundEx("Product not found"));
+        Product product = productRepository.findById(id).orElseThrow(()-> new ResorceNotFoundEx("Product not found"));
 
         ProductDto productDto = productMapper.mapProductToDto(product);
         productDto.setCategoryId(product.getCategory().getId());
