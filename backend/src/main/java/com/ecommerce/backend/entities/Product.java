@@ -44,11 +44,11 @@ public class Product {
     @Column(nullable = false)
     private boolean isNewArrival;
 
-    @Column(nullable = false, updatable = true)
+    @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date createdAt;
 
-    @Column(nullable = false, updatable = true)
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date updatedAt;
 

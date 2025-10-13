@@ -73,4 +73,13 @@ public class ProductServiceImpl implements ProductService {
         productDto.setProductResources(productMapper.mapProductResourcesListDto(product.getResources()));
         return productDto;
     }
+
+    @Override
+    public Product updateProduct(ProductDto productDto) {
+        Product product = productRepository.findById(productDto.getId()).orElseThrow(()-> new ResorceNotFoundEx("product not found"));
+        Product updatedProduct = productMapper.mapToProductEntity(productDto);
+//        updatedProduct.setCreatedAt(product.getCreatedAt());
+//        updatedProduct.setId(product.getId());
+        return productRepository.save(updatedProduct);
+    }
 }

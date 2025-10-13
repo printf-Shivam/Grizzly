@@ -10,9 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Collections;
 import java.util.*;
-import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -45,5 +43,11 @@ public class ProductController {
     public ResponseEntity<ProductDto> getProductById(@PathVariable UUID id){
         ProductDto productDto = productService.getProductById(id);
         return new ResponseEntity<>(productDto, HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<Product> updateProduct(@RequestBody ProductDto productDto){
+        Product product = productService.updateProduct(productDto);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 }
