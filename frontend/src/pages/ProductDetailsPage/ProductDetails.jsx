@@ -42,28 +42,26 @@ const ProductDetails = () => {
   const [breadCrumbLinks, setBreadCrumbLink] = useState([]);
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cartState?.cart);
+  const [similarProduct,setSimilarProducts] = useState([]);
+  const categories = useSelector((state)=> state?.categoryState?.categories)
 
-  console.log("Cart items ",cartItems);
-
-  const similarProducts = useMemo(()=>{
-    return content?.products?.filter((item)=> (item?.type_id === product?.type_id && item?.id !== product?.id));
-  },[product]);
 
   const productCategory = useMemo(() => {
-    return categories?.find((category) => category?.id === product?.category_id);
-  }, [product]);
+    return categories?.find((category) => category?.id === product?.categoryId);
+  }, [product,categories]);
 
   useEffect(() => {
-    setImage(product?.images[0]?.startsWith('http') ? product?.images[0] : product?.thumbnail);
+    setImage(product?.thumbnail);
     setBreadCrumbLink([]);
     const arrayLinks = [{ title: 'Shop', path: '/' }, {
       title: productCategory?.name,
-      path: productCategory?.path
+      path: productCategory?.name
     }];
-    const productType = productCategory?.types?.find((item) => item?.type_id === product?.type_id);
-    console.log("product type ", productType, productCategory);
-    if (productType) {
-      arrayLinks?.push({
+
+    const productType = productCategory?.categoryTypes?.find((item)=>item?.id === product?.categoryTypeId)
+    
+    if(productType){
+      arrayLinks.push({
         title: productType?.name,
         path: productType?.name
       })
@@ -73,7 +71,7 @@ const ProductDetails = () => {
 
   const addItemToCart = useCallback(()=>{
     //dispatch(addToCart({id:product?.id,quantity:1}));
-  },[dispatch, product?.id]);
+  },[]);
 
 
   return (
@@ -87,7 +85,7 @@ const ProductDetails = () => {
             <div className='flex flex-row md:flex-col justify-center h-full'>
               {
                 product?.images[0]?.startsWith('http') && product?.images?.map((item, index) => (
-                  <button key={index} onClick={() => setImage(item)} className='rounded-lg w-fit p-2 mb-2'><img src={item} className='h-[60px] w-[50px] rounded-lg bg-cover bg-center hover:scale-105 hover:border' alt={'sample-' + index} /></button>
+                  <button key={index} onClick={() => setImage(item.url)} className='rounded-lg w-fit p-2 mb-2'><img src={item.url} className='h-[60px] w-[50px] rounded-lg bg-cover bg-center hover:scale-105 hover:border' alt={'sample-' + index} /></button>
                 ))
               }
             </div>
@@ -95,7 +93,7 @@ const ProductDetails = () => {
           </div>
           <div className='w-full md:w-[80%] flex justify-center md:pt-0 pt-10'>
             <img src={image} className='h-full w-full max-h-[520px]
-         border rounded-lg cursor-pointer object-cover' alt={product?.title} />
+         border rounded-lg cursor-pointer object-cover' alt={product?.name} />
           </div>
         </div>
 
@@ -103,7 +101,7 @@ const ProductDetails = () => {
       <div className='w-[60%] px-10'>
         {/* Product Description */}
         <Breadcrumb links={breadCrumbLinks} />
-        <p className='text-3xl pt-4'>{product?.title}</p>
+        <p className='text-3xl pt-4'>{product?.name}</p>
         <Rating rating={product?.rating} />
         {/* Price Tag */}
         <p className='text-xl bold py-2'>₹{product?.price}</p>
@@ -150,10 +148,10 @@ const ProductDetails = () => {
     <div className='flex px-10'>
     
     <div className='pt-4 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 gap-8 px-2 pb-10'>
-                {similarProducts?.map((item,index)=>(
+                {similarProduct?.map((item,index)=>(
                   <ProductCard key={index} {...item}/>
                 ))}
-                {!similarProducts?.length && <p>No Products Found!</p>}
+                {!similarProduct?.length && <p>No Products Found!</p>}
                 </div>
     </div>
     </>

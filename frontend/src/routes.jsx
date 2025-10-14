@@ -3,7 +3,7 @@ import App from "./App"
 import ProductListPage from "./pages/ProductListPage/ProductListPage";
 import ShopApplicationWrapper from "./pages/ShopApplicationWrapper";
 import ProductDetails from "./pages/ProductDetailsPage/ProductDetails";
-import { loadProductById } from "./routes/products";
+import { loadProductBySlug } from "./routes/products";
 export const router = createBrowserRouter([
     {
         path:"/",
@@ -26,10 +26,9 @@ export const router = createBrowserRouter([
                 element:<ProductListPage categoryType={'KIDS'}/>
             },
             {
-                path:"/product/:productId",
-                
+                path:"/product/:slug",
                 element:<ProductDetails/>,
-                loader: loadProductById
+                loader: loadProductBySlug
             }            
         ]
     }
