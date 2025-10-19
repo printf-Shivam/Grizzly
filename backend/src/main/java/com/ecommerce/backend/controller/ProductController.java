@@ -28,8 +28,9 @@ public class ProductController {
             ProductDto productDto = productService.getProductBySlug(slug);
             productList.add(productDto);
         }
-
+        else{
         productList = productService.getAllProducts(categoryId, typeId);
+        }
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 
