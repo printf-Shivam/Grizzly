@@ -13,6 +13,7 @@ import SectionHeading from '../../components/sectionHeading/SectionHeading';
 import ProductCard from '../ProductListPage/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../store/features/cart';
+import _ from 'lodash';
 
 
 const categories = content?.categories;
@@ -73,6 +74,20 @@ const ProductDetails = () => {
     //dispatch(addToCart({id:product?.id,quantity:1}));
   },[]);
 
+  const colors = useMemo(()=>{
+    const colorSet = _.uniq(_.map(product?.variants,'color'));
+    return colorSet;
+
+  },[product])
+
+  const sizes = useMemo(()=>{
+    const sizeSet = _.uniq(_.map(product?.variants,'size'));
+    return sizeSet;
+    
+  },[product])
+
+  console.log("colors: ", colors)
+  console.log("sizes", sizes)
 
   return (
     <>
