@@ -51,6 +51,13 @@ const ProductDetails = () => {
     return categories?.find((category) => category?.id === product?.categoryId);
   }, [product,categories]);
 
+    useEffect(()=>{
+    getAllProducts(product?.categoryId, product?.categoryTypeId).then (res=>{
+      const excludeself = res?.filter((item)=> item?.id!== product.id)
+      setSimilarProducts(excludeself)
+    })
+  },[product?.categoryId, product?.categoryTypeId])
+
   useEffect(() => {
     setImage(product?.thumbnail);
     setBreadCrumbLink([]);
