@@ -21,6 +21,9 @@ public class RegistrationService {
     @Autowired
     private AuthorityService authorityService;
 
+    @Autowired
+    private EmailService emailService;
+
     public RegistrationResponse createUser(RegistrationRequest request) {
         User existing = userDetailRepository.findByEmail(request.getEmail());
 
@@ -44,6 +47,9 @@ public class RegistrationService {
             user.setVerificationCode(code);
             user.setAuthorities(authorityService.getUserAuthority());
             userDetailRepository.save(user);
+
+            emailService.sendMail(user);
+
             return RegistrationResponse.builder()
                     .code(200)
                     .message("User created")
@@ -53,5 +59,10 @@ public class RegistrationService {
             throw new RuntimeException(e);
         }
     
+    }
+        public void verifyUser(String userName) {
+        User user = userDetailRepository.findByEmail(userName);
+        user.setEnabled(true);
+        userDetailRepository.save(user);
     }
 }

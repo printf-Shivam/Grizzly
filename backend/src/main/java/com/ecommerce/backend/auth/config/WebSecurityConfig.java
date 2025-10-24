@@ -9,6 +9,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +18,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+
+    private static final String[] publicApis= {
+        "/api/auth/**"
+    };
 
     @Autowired
     private UserDetailsService userDetailService;
@@ -31,6 +36,11 @@ public class WebSecurityConfig {
     }
 
     @Bean
+    public WebSecurityCustomizer webSecurityCustomizer(){
+        return (web) -> web.ignoring().requestMatchers(publicApis);
+    }
+
+    @Bean
     public AuthenticationManager authenticationManager(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailService);
@@ -41,7 +51,7 @@ public class WebSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
-        return null;
+        return new BCryptPasswordEncoder();
     }
 
 }
