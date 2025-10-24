@@ -1,8 +1,11 @@
 package com.ecommerce.backend.auth.controller;
 
 import com.ecommerce.backend.auth.dto.LoginRequest;
+import com.ecommerce.backend.auth.dto.RegistrationRequest;
+import com.ecommerce.backend.auth.dto.RegistrationResponse;
 import com.ecommerce.backend.auth.dto.UserToken;
 import com.ecommerce.backend.auth.entities.User;
+import com.ecommerce.backend.auth.services.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,9 @@ public class AuthController {
 
     @Autowired
     AuthenticationManager authenticationManager;
+
+    @Autowired
+    RegistrationService registrationService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
@@ -46,7 +52,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register (){
+    public ResponseEntity<RegistrationResponse> register (@RequestBody RegistrationRequest request){
+        RegistrationResponse registrationResponse = registrationService.createUser(request);
         return null;
     }
 

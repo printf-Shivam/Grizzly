@@ -18,6 +18,8 @@ public class RegistrationService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AuthorityService authorityService;
 
     public RegistrationResponse createUser(RegistrationRequest request) {
         User existing = userDetailRepository.findByEmail(request.getEmail());
@@ -40,14 +42,16 @@ public class RegistrationService {
 
             String code = VerificationCodeGenerator.generateCode();
             user.setVerificationCode(code);
-
-
+            user.setAuthorities(authorityService.getUserAuthority());
+            userDetailRepository.save(user);
+            return RegistrationResponse.builder()
+                    .code(200)
+                    .message("User created")
+                    .build();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        //work from here, assign role and proceed
-        return null;
-
+    
     }
 }
