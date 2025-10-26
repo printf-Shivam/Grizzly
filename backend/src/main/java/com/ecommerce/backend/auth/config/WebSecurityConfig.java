@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -24,6 +25,9 @@ public class WebSecurityConfig {
     };
 
     @Autowired
+    JWTTokenHelper jwtTokenHelper;
+
+    @Autowired
     private UserDetailsService userDetailService;
 
     @Bean
@@ -31,7 +35,8 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authorize)-> authorize
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers(HttpMethod.GET,"/api/products", "/api/category").permitAll()
-                .anyRequest().authenticated());
+                .anyRequest().authenticated())
+                .addFilterBefore(new JwtAuthorizationFilter(userDetailService, jwtTokenHelper), UsernamePasswordAuthenticationFilter.class);
                 return http.build();
     }
 
