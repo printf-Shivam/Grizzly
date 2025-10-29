@@ -3,9 +3,8 @@ import { Wishlist } from '../common/Wishlist'
 import { AccountIcon } from '../common/AccountIcon'
 import { CartIcon } from '../common/CartIcon'
 import { Link, NavLink } from 'react-router-dom'
-import './navigation.css';
 
-const Navigation = () => {
+const Navigation = ({variant="default"}) => {
   return (
     <nav className='flex items-center py-6 px-8 md:px-16 justify-between gap-4 md:gap-20 custom-nav bg-white shadow-sm'>
   <div className='flex items-center'>
@@ -14,7 +13,7 @@ const Navigation = () => {
       Grizzly
     </Link>
   </div>
-  
+  {variant==="default" && 
   <div className='hidden md:flex flex-wrap items-center gap-10'>
     {/* Nav items */}
     <ul className='flex gap-8 lg:gap-14'>
@@ -68,7 +67,8 @@ const Navigation = () => {
       </li>
     </ul>
   </div>
-  
+  }
+  {variant==="default" &&
   <div className='hidden sm:flex flex-wrap justify-center'>
     {/* Search bar */}
     <div className='border border-gray-300 rounded-lg flex overflow-hidden hover:border-gray-400 transition-colors'>
@@ -89,9 +89,10 @@ const Navigation = () => {
       />
     </div>
   </div>
-
+}
   <div className='flex items-center gap-3 md:gap-4'>
     {/* Action Items - icons */}
+    {variant==="default" && 
     <ul className='flex gap-4 md:gap-6'>
       <li>
         <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
@@ -111,7 +112,14 @@ const Navigation = () => {
           <CartIcon />
         </Link>
       </li>
-    </ul>
+    </ul>}
+        {
+          variant === "auth" &&
+          <ul className='flex gap-8'>
+            <li className='text-black border border-black hover:bg-slate-100 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none'><NavLink to={"/v1/login"} className={({isActive})=> isActive ? 'active-link':''}>Login</NavLink></li>
+            <li className='text-black border border-black hover:bg-slate-100 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none'><NavLink to="/v1/register" className={({isActive})=> isActive ? 'active-link':''}>Signup</NavLink></li>
+          </ul>
+        }
     
     {/* Mobile menu button */}
     <button className="md:hidden p-2 hover:bg-gray-100 rounded-full transition-colors">
