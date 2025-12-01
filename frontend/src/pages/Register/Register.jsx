@@ -5,7 +5,7 @@ import { registerAPI } from '../../api/authentication';
 import GoogleSignIn from '../../components/Buttons/GoogleSignIn'
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
-
+import VerifyCode from './VerifyCode';
 
 const Register = () => {
 
@@ -113,7 +113,7 @@ const Register = () => {
           <p className="text-center mt-4 text-sm text-gray-600">
             Already have an account?{" "}
             <Link
-              to="/v1/login"
+              to="/api/auth/login"
               className="underline hover:text-black"
             >
               Log in
@@ -122,6 +122,15 @@ const Register = () => {
         </motion.div>
       )}
 
+      {enableVerify && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="w-full max-w-md"
+        >
+          <VerifyCode email={values?.email} />
+        </motion.div>
+      )}
     </div>
   );
 }
