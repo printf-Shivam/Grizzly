@@ -35,7 +35,9 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authorize)-> authorize
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers(HttpMethod.GET,"/api/products", "/api/category").permitAll()
-                .anyRequest().authenticated())
+                        .requestMatchers("/oauth2/success").permitAll()
+                        .anyRequest().authenticated())
+                .oauth2Login((oauth2login)-> oauth2login.defaultSuccessUrl("/oauth2/success").loginPage("/oauth2/authorization/google"))
                 .addFilterBefore(new JwtAuthorizationFilter(userDetailService, jwtTokenHelper), UsernamePasswordAuthenticationFilter.class);
                 return http.build();
     }
