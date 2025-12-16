@@ -8,14 +8,15 @@ import com.ecommerce.backend.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 
+@Service
 public class AddressService {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    
     @Autowired
     private AddressRepository addressRepository;
  

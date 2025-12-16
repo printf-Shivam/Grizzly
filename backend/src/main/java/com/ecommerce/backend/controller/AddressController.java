@@ -13,7 +13,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/address")
-public class OrderController {
+public class AddressController {
 
     @Autowired
     private AddressService addressService;
