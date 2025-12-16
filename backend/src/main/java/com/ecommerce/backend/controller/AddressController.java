@@ -3,6 +3,7 @@ import com.ecommerce.backend.dto.AddressRequest;
 import com.ecommerce.backend.entities.Address;
 import com.ecommerce.backend.services.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ public class AddressController {
 
     @PostMapping
     public ResponseEntity<Address> createAddress(@RequestBody AddressRequest addressRequest, Principal principal){
-        return null;
+        Address address = addressService.createAddress(addressRequest,principal);
+        return new ResponseEntity<>(address, HttpStatus.OK);
     }
 }

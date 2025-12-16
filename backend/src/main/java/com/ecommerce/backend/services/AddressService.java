@@ -29,6 +29,7 @@ public class AddressService {
                 .state(addressRequest.getState())
                 .zipCode(addressRequest.getZipCode())
                 .phoneNumber(addressRequest.getPhoneNumber())
+                .user(user)
                 .build();
         return addressRepository.save(address);
     }
