@@ -7,6 +7,7 @@ import com.ecommerce.backend.repository.ProductRepository;
 import com.ecommerce.backend.specification.ProductSpecification;
 import com.ecommerce.backend.Exception.ResorceNotFoundEx;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -81,5 +82,9 @@ public class ProductServiceImpl implements ProductService {
 //        updatedProduct.setCreatedAt(product.getCreatedAt());
 //        updatedProduct.setId(product.getId());
         return productRepository.save(updatedProduct);
+    }
+    @Override
+    public Product fetchProductById(UUID id) throws Exception {
+        return productRepository.findById(id).orElseThrow(BadRequestException::new);
     }
 }

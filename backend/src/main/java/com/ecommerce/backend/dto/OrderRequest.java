@@ -18,7 +18,7 @@ public class OrderRequest {
     private UUID userId;
     private Date orderDate;
     private UUID addressId;
-    private List<UUID> itemIds;
+    private List<OrderItemRequest> orderItemRequests;
     private Double totalAmount;
     private Double discount;
     private String paymentMethod;
