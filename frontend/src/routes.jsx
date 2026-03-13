@@ -2,12 +2,13 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "./App"
 import ProductListPage from "./pages/ProductListPage/ProductListPage";
 import ShopApplicationWrapper from "./pages/ShopApplicationWrapper";
-import ProductDetails from "./pages/ProductDetailPage/ProductDetails";
+import ProductDetails from "./pages/ProductDetailsPage/ProductDetails";
 import { loadProductBySlug } from "./routes/products";
 import AuthenticationWrapper from "./pages/AuthenticationWrapper";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import OAuth2LoginCallback from "./pages/OAuth2LoginCallback";
+import Cart from "./pages/Cart/Cart";
 
 export const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
                 loader: loadProductBySlug,
                 element:<ProductDetails/>,
                 
+            },
+            {
+                path:"/cart-items",
+                element:<Cart/>
             }            
         ]
     },

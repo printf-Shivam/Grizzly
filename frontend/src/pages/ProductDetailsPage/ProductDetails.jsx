@@ -9,14 +9,15 @@ import SvgCreditCard from '../../components/common/SvgCreditCard';
 import SvgCloth from '../../components/common/SvgCloth';
 import SvgShipping from '../../components/common/SvgShipping';
 import SvgReturn from '../../components/common/SvgReturn';
-import SectionHeading from '../../components/sectionHeading/SectionHeading';
+import SectionHeading from '../../components/sections/sectionHeading/SectionHeading';
 import ProductCard from '../ProductListPage/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../store/features/cart';
 import _ from 'lodash';
+import { getAllProducts } from '../../api/fetchProducts';
+import { addItemToCartAction } from '../../store/actions/cartAction';
 
-
-const categories = content?.categories;
+// const categories = content?.categories;
 
 const extraSections = [
   {
@@ -45,18 +46,21 @@ const ProductDetails = () => {
   const cartItems = useSelector((state) => state.cartState?.cart);
   const [similarProduct,setSimilarProducts] = useState([]);
   const categories = useSelector((state)=> state?.categoryState?.categories)
+  const[selectedSize, setSelectedSize] = useState('')
+  const [error, setError] = useState('')
 
 
   const productCategory = useMemo(() => {
     return categories?.find((category) => category?.id === product?.categoryId);
   }, [product,categories]);
 
-    useEffect(()=>{
+  useEffect(()=>{
     getAllProducts(product?.categoryId, product?.categoryTypeId).then (res=>{
       const excludeself = res?.filter((item)=> item?.id!== product.id)
       setSimilarProducts(excludeself)
     })
   },[product?.categoryId, product?.categoryTypeId])
+
 
   useEffect(() => {
     setImage(product?.thumbnail);
@@ -77,9 +81,43 @@ const ProductDetails = () => {
     setBreadCrumbLink(arrayLinks);
   }, [productCategory, product]);
 
-  const addItemToCart = useCallback(()=>{
-    //dispatch(addToCart({id:product?.id,quantity:1}));
-  },[]);
+  const addItemToCart = useCallback(() => {
+
+    console.log("size", selectedSize);
+  
+    if(!selectedSize){
+      setError("Please select a size");
+      return;
+    }
+  
+    const selectedVariant = product?.variants?.find(
+      (variant) => variant.size === selectedSize
+    );
+  
+    console.log("selected", selectedVariant);
+  
+    if(selectedVariant && Number(selectedVariant.stockQuantitiy) > 0){
+      dispatch(addItemToCartAction({
+        productId: product?.id,
+        thumbnail: product?.thumbnail,
+        name: product?.name,
+        variant: selectedVariant,
+        quantity: 1,
+        subTotal: product?.price,
+        price: product?.price
+      }));
+    }
+    else{
+      setError("Out of Stock");
+    }
+  
+  },[dispatch, product, selectedSize]);
+
+  useEffect(()=>{
+    if(selectedSize){
+      setError('');
+    }
+  },[selectedSize]);
 
   const colors = useMemo(()=>{
     const colorSet = _.uniq(_.map(product?.variants,'color'));
@@ -93,8 +131,8 @@ const ProductDetails = () => {
     
   },[product])
 
-  console.log("colors: ", colors)
-  console.log("sizes", sizes)
+  // console.log("colors: ", colors)
+  // console.log("sizes", sizes)
 
   return (
     <>
@@ -106,8 +144,8 @@ const ProductDetails = () => {
             {/* Stack images */}
             <div className='flex flex-row md:flex-col justify-center h-full'>
               {
-                product?.images[0]?.startsWith('http') && product?.images?.map((item, index) => (
-                  <button key={index} onClick={() => setImage(item.url)} className='rounded-lg w-fit p-2 mb-2'><img src={item.url} className='h-[60px] w-[50px] rounded-lg bg-cover bg-center hover:scale-105 hover:border' alt={'sample-' + index} /></button>
+                product?.productResources?.map((item, index) => (
+                  <button key={index} onClick={() => setImage(item?.url)} className='rounded-lg w-fit p-2 mb-2'><img src={item?.url} className='h-[60px] w-[60px] rounded-lg bg-cover bg-center hover:scale-105 hover:border' alt={'sample-' + index} /></button>
                 ))
               }
             </div>
@@ -121,28 +159,30 @@ const ProductDetails = () => {
 
       </div>
       <div className='w-[60%] px-10'>
+
         {/* Product Description */}
         <Breadcrumb links={breadCrumbLinks} />
         <p className='text-3xl pt-4'>{product?.name}</p>
         <Rating rating={product?.rating} />
         {/* Price Tag */}
-        <p className='text-xl bold py-2'>₹{product?.price}</p>
+        <p className='text-xl bold py-2'>${product?.price}</p>
         <div className='flex flex-col py-2'>
           <div className='flex gap-2'>
             <p className='text-sm bold'>Select Size</p>
             <Link className='text-sm text-gray-500 hover:text-gray-900' to={'https://en.wikipedia.org/wiki/Clothing_sizes'} target='_blank'>{'Size Guide ->'}</Link>
           </div>
         </div>
-        <div className='mt-2'><SizeFilter sizes={product?.size} hidleTitle /></div>
+        <div className='mt-2'><SizeFilter onChange={(values)=>{setSelectedSize(values?.[0] ?? '')}} sizes={sizes} hidleTitle multi={false}/></div>
         <div>
           <p className='text-lg bold'>Colors Available</p>
-          <ProductColors colors={product?.color} />
+          <ProductColors colors={colors} />
         </div>
         <div className='flex py-4'>
-         {!cartItems?.length >0 ? <button onClick={addItemToCart} className='bg-black rounded-lg hover:bg-gray-700'><div className='flex h-[42px] rounded-lg w-[150px] px-2 items-center justify-center bg-black text-white hover:bg-gray-700'><svg width="17" height="16" className='' viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+         <button onClick={addItemToCart} className='bg-black rounded-lg hover:bg-gray-700'><div className='flex h-[42px] rounded-lg w-[150px] px-2 items-center justify-center bg-black text-white hover:bg-gray-700'><svg width="17" height="16" className='' viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.5 1.33325H2.00526C2.85578 1.33325 3.56986 1.97367 3.6621 2.81917L4.3379 9.014C4.43014 9.8595 5.14422 10.4999 5.99474 10.4999H13.205C13.9669 10.4999 14.6317 9.98332 14.82 9.2451L15.9699 4.73584C16.2387 3.68204 15.4425 2.65733 14.355 2.65733H4.5M4.52063 13.5207H5.14563M4.52063 14.1457H5.14563M13.6873 13.5207H14.3123M13.6873 14.1457H14.3123M5.66667 13.8333C5.66667 14.2935 5.29357 14.6666 4.83333 14.6666C4.3731 14.6666 4 14.2935 4 13.8333C4 13.373 4.3731 12.9999 4.83333 12.9999C5.29357 12.9999 5.66667 13.373 5.66667 13.8333ZM14.8333 13.8333C14.8333 14.2935 14.4602 14.6666 14 14.6666C13.5398 14.6666 13.1667 14.2935 13.1667 13.8333C13.1667 13.373 13.5398 12.9999 14 12.9999C14.4602 12.9999 14.8333 13.373 14.8333 13.8333Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>Add to cart</div></button> : <button></button>}
+          </svg>Add to cart</div></button>
         </div>
+        {error && <p className='text-lg text-red-600'>{error}</p>}
         <div className='grid md:grid-cols-2 gap-4 pt-4'>
           {/*  */}
           {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { colorSelector } from '../../components/Filters/ColorsFilter';
+import { colorSelector } from '../../components/Filters/ColorsFilters';
 
 const ProductColors = ({colors}) => {
     console.log("colors ",colors);
