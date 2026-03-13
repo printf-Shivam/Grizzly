@@ -1,6 +1,5 @@
 
 import { getProductBySlug } from "../api/fetchProducts";
-import content from "../data/content.json"
 import { setLoading } from "../store/features/common";
 import store from '../store/store';
 

@@ -23,6 +23,7 @@ export const getProductBySlug = async(slug)=>{
 
     try{
         const result = await axios(url,{method:"GET"});
+        console.log(result?.data?.[0])
         return result?.data?.[0];
     }
     catch(err){

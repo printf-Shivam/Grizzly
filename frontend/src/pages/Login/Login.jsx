@@ -26,7 +26,7 @@ const Login = () => {
         navigate("/")
       }
       else{
-        setError = 'some error occured'
+        setError('some error occured');
       }
     }).catch(err=>{
       setError("invalid details")

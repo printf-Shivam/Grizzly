@@ -77,8 +77,8 @@
                       "path":"/faq"
                   },
                   {
-                      "label":"Careers",
-                      "path":"/careers"
+                      "label":"Career",
+                      "path":"/career"
                   }
               ]
           },
@@ -99,7 +99,7 @@
               "title":"More Info",
               "list":[
                   {
-                      "label":"Terms and Conditions",
+                      "label":"Term and Conditions",
                       "path":"/terms-conditions"
                   },
                   {
@@ -114,10 +114,10 @@
           },
           {
               "title":"Location",
-              "description":"India"
+              "description":"Location Country"
           }
       ],
-      "copyright":"Copyright © 2024 Grizzly"
+      "copyright":"Copyright © 2024 ShopEase"
   },
   "categories": [
       {

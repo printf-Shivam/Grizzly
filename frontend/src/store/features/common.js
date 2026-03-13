@@ -1,14 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"
 
 export const initialState = {
     loading: false
 }
 
 export const commonSlice = createSlice({
-    name: 'commonSlice',
+    name:'commonSlice',
     initialState,
-    reducers :{
-        setLoading : (state, action)=>{
+    reducers:{
+        setLoading : (state,action)=>{
             return {
                 ...state,
                 loading:action?.payload
@@ -17,5 +17,5 @@ export const commonSlice = createSlice({
     }
 });
 
-export const {setLoading} = commonSlice?.actions;
+export const { setLoading } = commonSlice?.actions;
 export default commonSlice?.reducer;

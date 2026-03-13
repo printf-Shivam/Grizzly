@@ -1,6 +1,9 @@
+import React from 'react'
 import { useState, useCallback } from 'react'
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { setLoading } from '../../store/features/common';
+import { Link } from 'react-router-dom';
 import { verifyAPI } from '../../api/authentication';
 
 const VerifyCode = ({email}) => {

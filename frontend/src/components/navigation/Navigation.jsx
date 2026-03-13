@@ -3,8 +3,12 @@ import { Wishlist } from '../common/Wishlist'
 import { AccountIcon } from '../common/AccountIcon'
 import { CartIcon } from '../common/CartIcon'
 import { Link, NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { countCartItems } from '../../store/features/cart'
 
 const Navigation = ({variant="default"}) => {
+  const cartLength = useSelector(countCartItems);
+
   return (
     <nav className='flex items-center py-6 px-8 md:px-16 justify-between gap-4 md:gap-20 custom-nav bg-white shadow-sm'>
   <div className='flex items-center'>
@@ -91,35 +95,16 @@ const Navigation = ({variant="default"}) => {
   </div>
 }
   <div className='flex items-center gap-3 md:gap-4'>
+
     {/* Action Items - icons */}
-    {variant==="default" && 
-    <ul className='flex gap-4 md:gap-6'>
-      <li>
-        <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-          <Wishlist />
-        </button>
-      </li>
-      <li>
-        <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-          <AccountIcon/>
-        </button>
-      </li>
-      <li>
-        <Link 
-          to='/cart-items' 
-          className="p-2 hover:bg-gray-100 rounded-full transition-colors block"
-        >
-          <CartIcon />
-        </Link>
-      </li>
-    </ul>}
-        {
-          variant === "auth" &&
-          <ul className='flex gap-8'>
-            <li className='text-black border border-black hover:bg-slate-100 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none'><NavLink to={"/v1/login"} className={({isActive})=> isActive ? 'active-link':''}>Login</NavLink></li>
-            <li className='text-black border border-black hover:bg-slate-100 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none'><NavLink to="/v1/register" className={({isActive})=> isActive ? 'active-link':''}>Signup</NavLink></li>
-          </ul>
-        }
+         { variant ==="default" &&
+        <ul className='flex gap-8 '>
+          <li><button ><Wishlist /></button></li>
+          <li><button onClick={()=> navigate('/account-details/profile')}><AccountIcon/></button></li>
+          <li><Link to='/cart-items' className='flex flex-wrap'><CartIcon />
+          {cartLength > 0 && <div className='absolute ml-6 inline-flex items-center justify-center h-6 w-6 bg-black text-white rounded-full border-2 text-xs border-white'>{cartLength}</div>}
+          </Link></li>
+        </ul>}
     
     {/* Mobile menu button */}
     <button className="md:hidden p-2 hover:bg-gray-100 rounded-full transition-colors">
