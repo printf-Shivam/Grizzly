@@ -9,6 +9,11 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import OAuth2LoginCallback from "./pages/OAuth2LoginCallback";
 import Cart from "./pages/Cart/Cart";
+import Account from "./pages/Account/Account";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import Checkout from "./pages/Checkout/Checkout";
+import PaymentPage from "./pages/PaymentPage/PaymentPage";
+
 
 export const router = createBrowserRouter([
     {
@@ -40,11 +45,19 @@ export const router = createBrowserRouter([
             {
                 path:"/cart-items",
                 element:<Cart/>
-            }            
+            },
+            {
+                path:"/account-details",
+                element: <ProtectedRoute> <Account/> </ProtectedRoute>
+            },
+            {
+                path: "/checkout",
+                element: <ProtectedRoute> <Checkout/> </ProtectedRoute>
+            }           
         ]
     },
     {
-        path: "/api/auth/",
+        path: "/v1",
         element: <AuthenticationWrapper/>,
         children:[
             {
@@ -60,6 +73,10 @@ export const router = createBrowserRouter([
 ,{
     path:'/oauth2/callback',
     element: <OAuth2LoginCallback/>
+},
+{
+    path:"/payment",
+    element: <ProtectedRoute> <PaymentPage/> </ProtectedRoute>
 }
 
 ])

@@ -57,9 +57,7 @@ const Cart = () => {
       return value?.toFixed(2);
     },[cartItems]);
 
-    const isLoggedIn = useMemo(()=>{
-      return isTokenValid();
-    },[])
+    const isLoggedIn = isTokenValid();
 
     return (
       <>
@@ -203,7 +201,7 @@ const Cart = () => {
 
                   {!isLoggedIn && (
                     <Link
-                      to={"/api/auth/login"}
+                      to={"/v1/login"}
                       className='block text-center mt-4 bg-black text-white py-3 rounded-lg hover:bg-gray-800'
                     >
                       Login to Checkout

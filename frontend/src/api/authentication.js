@@ -6,7 +6,8 @@ export const loginAPI = async(body)=>{
     try{
         const res = await axios(url,{
             method:'POST',
-            data:body
+            data:body,
+            // withCredentials:true
         })
         return res?.data;
     }
@@ -20,7 +21,8 @@ export const registerAPI = async(body)=>{
     try{
         const res = await axios(url,{
             method:'POST',
-            data:body
+            data:body,
+            withCredentials:true
         })
         return res?.data;
     }
@@ -34,7 +36,8 @@ export const verifyAPI = async(body)=>{
     try{
         const res = await axios(url,{
             method:'POST',
-            data:body
+            data:body,
+            withCredentials:true
         })
         return res?.data;
     }

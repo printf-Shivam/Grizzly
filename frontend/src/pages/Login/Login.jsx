@@ -6,7 +6,7 @@ import { setLoading } from '../../store/features/common';
 import { Link } from 'react-router-dom';
 import { loginAPI } from '../../api/authentication';
 import { motion } from "framer-motion";
-
+import { saveToken } from "../../utils/jwt-helper";
 const Login = () => {
   const [values, setValues]= useState({
     userName:'',
@@ -19,18 +19,19 @@ const Login = () => {
 
   const onSubmit =useCallback((e)=>{
     e.preventDefault();
-    setError :'';
+    setError('');
     dispatch(setLoading(true));
     loginAPI(values).then(res=>{
       if(res.token){
-        navigate("/")
+        saveToken(res.token);
+        navigate("/");
       }
       else{
         setError('some error occured');
       }
     }).catch(err=>{
       setError("invalid details")
-    }).finally(setLoading(false));
+    }).finally(()=> dispatch(setLoading(false)));
   },[navigate,dispatch,values]);
 
   const handleOnChange =useCallback((e)=>{
@@ -106,7 +107,7 @@ const Login = () => {
 
         <p className="text-center mt-4 text-sm text-gray-600">
           Don’t have an account?{" "}
-          <Link to="/api/auth/register" className="underline hover:text-black">
+          <Link to="/v1/register" className="underline hover:text-black">
             Sign up
           </Link>
         </p>
