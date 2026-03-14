@@ -7,32 +7,32 @@ import { fetchUserDetails } from "../../api/userInfo";
 import { loadUserInfo, selectUserInfo } from "../../store/features/user";
 
 const Account = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userInfo = useSelector(selectUserInfo);
 
   console.log("userInfo:", userInfo);
 
   useEffect(() => {
-  dispatch(setLoading(true));
+    dispatch(setLoading(true));
 
-  fetchUserDetails()
-    .then((res) => {
-      console.log("API RESPONSE:", res);
-      dispatch(loadUserInfo(res));
-    })
-    .catch((err) => {
-      console.error("API ERROR:", err);
-    })
-    .finally(() => {
-      dispatch(setLoading(false));
-    });
+    fetchUserDetails()
+      .then((res) => {
+        console.log("API RESPONSE:", res);
+        dispatch(loadUserInfo(res));
+      })
+      .catch((err) => {
+        console.error("API ERROR:", err);
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
 
 }, [dispatch]);
 
  
   return (
     <div className="p-8">
-        {isUserAdmin && <div className="text-right"><Link to={"/admin"} className="text-lg text-blue-900 underline">Manage Admin</Link></div>}
       {userInfo?.email && (
         <>
           <p className="text-xl font-bold">Hello {userInfo?.firstName}</p>

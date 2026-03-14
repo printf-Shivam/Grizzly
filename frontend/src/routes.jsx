@@ -13,7 +13,7 @@ import Account from "./pages/Account/Account";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Checkout from "./pages/Checkout/Checkout";
 import PaymentPage from "./pages/PaymentPage/PaymentPage";
-
+import Profile from "./pages/Account/Profile";
 
 export const router = createBrowserRouter([
     {
@@ -48,7 +48,13 @@ export const router = createBrowserRouter([
             },
             {
                 path:"/account-details",
-                element: <ProtectedRoute> <Account/> </ProtectedRoute>
+                element: <ProtectedRoute> <Account/> </ProtectedRoute>,
+                children:[{
+                    path:'profile',
+                    element: <ProtectedRoute> <Profile/> </ProtectedRoute>
+                },{
+                    path:'orders'
+                }]
             },
             {
                 path: "/checkout",
