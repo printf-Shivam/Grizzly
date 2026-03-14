@@ -14,6 +14,6 @@ public class SwaggerConfig {
                 .info(new Info().title("E-Commerce").description("")
                         .version("1.0")
                         .contact(new Contact()
-                        .name("Wearzly")));
+                        .name("Grizly")));
     }
 }

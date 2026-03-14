@@ -3,14 +3,17 @@ package com.ecommerce.backend.controller;
 import com.ecommerce.backend.dto.ProductDto;
 import com.ecommerce.backend.entities.Product;
 import com.ecommerce.backend.services.ProductService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -28,8 +31,8 @@ public class ProductController {
             ProductDto productDto = productService.getProductBySlug(slug);
             productList.add(productDto);
         }
-        else{
-        productList = productService.getAllProducts(categoryId, typeId);
+        else {
+            productList = productService.getAllProducts(categoryId, typeId);
         }
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }

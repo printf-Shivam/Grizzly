@@ -4,6 +4,7 @@ import com.ecommerce.backend.auth.dto.RegistrationRequest;
 import com.ecommerce.backend.auth.dto.RegistrationResponse;
 import com.ecommerce.backend.auth.entities.User;
 import com.ecommerce.backend.auth.helper.VerificationCodeGenerator;
+import com.ecommerce.backend.auth.repositories.AuthorityRepository;
 import com.ecommerce.backend.auth.repositories.UserDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,18 +50,16 @@ public class RegistrationService {
             userDetailRepository.save(user);
 
             emailService.sendMail(user);
-
             return RegistrationResponse.builder()
                     .code(200)
                     .message("User created")
                     .build();
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    
     }
-        public void verifyUser(String userName) {
+
+    public void verifyUser(String userName) {
         User user = userDetailRepository.findByEmail(userName);
         user.setEnabled(true);
         userDetailRepository.save(user);

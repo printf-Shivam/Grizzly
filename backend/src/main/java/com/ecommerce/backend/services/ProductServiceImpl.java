@@ -1,17 +1,15 @@
 package com.ecommerce.backend.services;
 
+import com.ecommerce.backend.Exception.ResourceNotFoundEx;
 import com.ecommerce.backend.dto.ProductDto;
 import com.ecommerce.backend.entities.*;
 import com.ecommerce.backend.mapper.ProductMapper;
-import com.ecommerce.backend.repository.ProductRepository;
+import com.ecommerce.backend.respository.ProductRepository;
 import com.ecommerce.backend.specification.ProductSpecification;
-import com.ecommerce.backend.Exception.ResorceNotFoundEx;
-
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 import java.util.UUID;
@@ -36,16 +34,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> getAllProducts(UUID categoryId, UUID typeId) {
-        Specification<Product> productSpecification = Specification.where(null);
 
-        if (null != categoryId) {
+        Specification<Product> productSpecification= Specification.where(null);
+
+        if(null != categoryId){
             productSpecification = productSpecification.and(ProductSpecification.hasCategoryId(categoryId));
         }
-        if (null != typeId) {
+        if(null != typeId){
             productSpecification = productSpecification.and(ProductSpecification.hasCategoryTypeId(typeId));
         }
-        List<Product> products = productRepository.findAll(productSpecification);
 
+        List<Product> products = productRepository.findAll(productSpecification);
         return productMapper.getProductDtos(products);
     }
 
@@ -53,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto getProductBySlug(String slug){
         Product product = productRepository.findBySlug(slug);
         if(product == null){
-            throw new ResorceNotFoundEx("Product not found");
+            throw new ResourceNotFoundEx("Product not found");
         }
         ProductDto productDto = productMapper.mapProductToDto(product);
         productDto.setCategoryId(product.getCategory().getId());
@@ -62,10 +61,10 @@ public class ProductServiceImpl implements ProductService {
         productDto.setProductResources(productMapper.mapProductResourcesListDto(product.getResources()));
         return productDto;
     }
-    
+
     @Override
     public ProductDto getProductById(UUID id) {
-        Product product = productRepository.findById(id).orElseThrow(()-> new ResorceNotFoundEx("Product not found"));
+        Product product = productRepository.findById(id).orElseThrow(()-> new ResourceNotFoundEx("Product not found"));
 
         ProductDto productDto = productMapper.mapProductToDto(product);
         productDto.setCategoryId(product.getCategory().getId());
@@ -77,12 +76,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product updateProduct(ProductDto productDto) {
-        Product product = productRepository.findById(productDto.getId()).orElseThrow(()-> new ResorceNotFoundEx("product not found"));
+        Product product = productRepository.findById(productDto.getId()).orElseThrow(()-> new ResourceNotFoundEx("product not found"));
         Product updatedProduct = productMapper.mapToProductEntity(productDto);
 //        updatedProduct.setCreatedAt(product.getCreatedAt());
 //        updatedProduct.setId(product.getId());
         return productRepository.save(updatedProduct);
     }
+
     @Override
     public Product fetchProductById(UUID id) throws Exception {
         return productRepository.findById(id).orElseThrow(BadRequestException::new);

@@ -1,14 +1,12 @@
 package com.ecommerce.backend.auth.controller;
 
+import com.ecommerce.backend.auth.config.JWTTokenHelper;
 import com.ecommerce.backend.auth.dto.LoginRequest;
 import com.ecommerce.backend.auth.dto.RegistrationRequest;
 import com.ecommerce.backend.auth.dto.RegistrationResponse;
 import com.ecommerce.backend.auth.dto.UserToken;
 import com.ecommerce.backend.auth.entities.User;
 import com.ecommerce.backend.auth.services.RegistrationService;
-
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +15,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -37,6 +33,9 @@ public class AuthController {
     @Autowired
     UserDetailsService userDetailsService;
 
+    @Autowired
+    JWTTokenHelper jwtTokenHelper;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
         try{
@@ -49,7 +48,7 @@ public class AuthController {
                     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
                 //generate token
-                String token ="";
+                String token =jwtTokenHelper.generateToken(user.getEmail());
                 UserToken userToken = UserToken.builder().token(token).build();
                 return new ResponseEntity<>(userToken, HttpStatus.OK);
             }
@@ -63,6 +62,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<RegistrationResponse> register (@RequestBody RegistrationRequest request){
         RegistrationResponse registrationResponse = registrationService.createUser(request);
+
         return new ResponseEntity<>(registrationResponse, registrationResponse.getCode() == 200? HttpStatus.OK : HttpStatus.BAD_REQUEST);
     }
 

@@ -1,16 +1,14 @@
 package com.ecommerce.backend.services;
 
-import com.ecommerce.backend.Exception.ResorceNotFoundEx;
+import com.ecommerce.backend.Exception.ResourceNotFoundEx;
 import com.ecommerce.backend.dto.CategoryDto;
 import com.ecommerce.backend.dto.CategoryTypeDto;
 import com.ecommerce.backend.entities.Category;
 import com.ecommerce.backend.entities.CategoryType;
-import com.ecommerce.backend.repository.CategoryRepository;
+import com.ecommerce.backend.respository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -63,7 +61,7 @@ public class CategoryService {
 
     public Category updateCategory(CategoryDto categoryDto, UUID categoryId) {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new ResorceNotFoundEx("Category not found with id " + categoryDto.getId()));
+                .orElseThrow(() -> new ResourceNotFoundEx("Category not found with id " + categoryDto.getId()));
 
         if (categoryDto.getName() != null) {
             category.setName(categoryDto.getName());

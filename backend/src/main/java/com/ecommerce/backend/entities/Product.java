@@ -18,7 +18,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class Product {
-    @Column
     @Id
     @GeneratedValue
     private UUID id;
@@ -40,7 +39,7 @@ public class Product {
 
     @Column(nullable = false, unique = true)
     private String slug;
-    
+
     @Column(nullable = false)
     private boolean isNewArrival;
 
@@ -52,12 +51,11 @@ public class Product {
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date updatedAt;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ProductVariant> productVariants;
 
     @ManyToOne
     @JoinColumn(name = "category_id",nullable = false)
-
     private Category category;
 
     @ManyToOne
@@ -66,6 +64,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Resources> resources;
+
     @PrePersist()
     protected void onCreate(){
         createdAt= new java.util.Date();

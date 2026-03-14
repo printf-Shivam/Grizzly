@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCartItems } from '../../store/features/cart';
 import { fetchUserDetails } from '../../api/userInfo';
 import { setLoading } from '../../store/features/common';
+import { createOrder } from "../../api/order";
+import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
   const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
-  const [userInfo, setUserInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
   const [paymentMethod, setPaymentMethod] = useState('');
-
+  const navigate = useNavigate();
 
   const subTotal = useMemo(() => {
     let value = 0;
@@ -34,23 +36,39 @@ const Checkout = () => {
   }, [dispatch]);
 
   const handlePlaceOrder = async () => {
+    console.log("PLACE ORDER CLICKED");
     try {
       dispatch(setLoading(true));
   
       const payload = {
         addressId: userInfo?.addressList?.[0]?.id,
         paymentMethod: paymentMethod,
+        totalAmount: Number(subTotal),
+        orderDate: new Date(),
+        discount: 0,
+        expectedDeliveryDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
+        orderItemRequests: cartItems.map((item) => ({
+          productId: item?.productId,
+          productVariantId: item?.variant?.id,
+          quantity: item?.quantity
+        }))
       };
   
-      console.log("Order payload:", payload);
+      console.log("Sending order request...");
+
+      const res = await createOrder(payload);
+
+      console.log("Order response:", res);
   
-      // call backend 
-      // await createOrder
+      console.log("Order created:", res);
   
       alert("Order placed successfully!");
   
+      navigate("/");
+  
     } catch (err) {
       console.error(err);
+      alert("Order failed");
     } finally {
       dispatch(setLoading(false));
     }
@@ -78,23 +96,7 @@ const Checkout = () => {
             </div>
           )}
         </div>
-  
-        {/* Delivery */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <p className="font-semibold text-lg mb-4">Choose Delivery</p>
-  
-          <p className="text-gray-500 mb-3">Select a day</p>
-  
-          <div className="flex gap-4">
-            <button className="px-5 py-2 border rounded-lg hover:bg-gray-100">
-              Oct 5
-            </button>
-  
-            <button className="px-5 py-2 border rounded-lg hover:bg-gray-100">
-              Oct 8
-            </button>
-          </div>
-        </div>
+
   
         {/* Payment */}
         <div className="bg-white p-6 rounded-xl shadow">

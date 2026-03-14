@@ -1,4 +1,5 @@
 package com.ecommerce.backend.controller;
+
 import com.ecommerce.backend.dto.AddressRequest;
 import com.ecommerce.backend.entities.Address;
 import com.ecommerce.backend.services.AddressService;
@@ -20,7 +21,7 @@ public class AddressController {
     private AddressService addressService;
 
     @PostMapping
-    public ResponseEntity<Address> createAddress(@RequestBody AddressRequest addressRequest, Principal principal){
+    public ResponseEntity<Address>  createAddress(@RequestBody AddressRequest addressRequest, Principal principal){
         Address address = addressService.createAddress(addressRequest,principal);
         return new ResponseEntity<>(address, HttpStatus.OK);
     }

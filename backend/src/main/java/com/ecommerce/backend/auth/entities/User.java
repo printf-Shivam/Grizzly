@@ -3,12 +3,8 @@ package com.ecommerce.backend.auth.entities;
 import com.ecommerce.backend.entities.Address;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
+import lombok.*;
+import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -36,9 +32,9 @@ public class User implements UserDetails {
     @JsonIgnore
     private String password;
 
-    private Date createdAt;
+    private Date createdOn;
 
-    private Date updatedAt;
+    private Date updatedOn;
 
     @Column(nullable = false,unique = true)
     private String email;
@@ -58,7 +54,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Address> addressList;
-    
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

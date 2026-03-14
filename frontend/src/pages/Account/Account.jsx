@@ -4,25 +4,30 @@ import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../store/features/common";
 import { fetchUserDetails } from "../../api/userInfo";
-import { loadUserInfo, selectIsUserAdmin, selectUserInfo } from "../../store/features/user";
+import { loadUserInfo, selectUserInfo } from "../../store/features/user";
 
 const Account = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userInfo = useSelector(selectUserInfo);
-  const isUserAdmin = useSelector(selectIsUserAdmin);
+
+  console.log("userInfo:", userInfo);
 
   useEffect(() => {
-    dispatch(setLoading(true));
-    fetchUserDetails()
-      .then((res) => {
-        dispatch(loadUserInfo(res));
-      })
-      .catch((err) => {})
-      .finally(() => {
-        dispatch(setLoading(false));
-      });
-  }, []);
+  dispatch(setLoading(true));
+
+  fetchUserDetails()
+    .then((res) => {
+      console.log("API RESPONSE:", res);
+      dispatch(loadUserInfo(res));
+    })
+    .catch((err) => {
+      console.error("API ERROR:", err);
+    })
+    .finally(() => {
+      dispatch(setLoading(false));
+    });
+
+}, [dispatch]);
 
  
   return (

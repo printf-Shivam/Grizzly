@@ -28,8 +28,8 @@ public class ProductMapper {
         product.setBrand(productDto.getBrand());
         product.setNewArrival(productDto.isNewArrival());
         product.setPrice(productDto.getPrice());
-        product.setRating(productDto.getRating());
         product.setSlug(productDto.getSlug());
+        product.setRating(productDto.getRating());
 
         Category category= categoryService.getCategory(productDto.getCategoryId());
         if(category!=null){
@@ -52,6 +52,9 @@ public class ProductMapper {
     private List<Resources> mapToProductResources(List<ProductResourceDto> productResources, Product product) {
         return productResources.stream().map(productResourceDto -> {
             Resources resources = new Resources();
+            if(productResourceDto.getId() != null){
+                resources.setId(productResourceDto.getId());
+            }
             resources.setName(productResourceDto.getName());
             resources.setType(productResourceDto.getType());
             resources.setUrl(productResourceDto.getUrl());
@@ -63,6 +66,9 @@ public class ProductMapper {
     private List<ProductVariant> mapToProductVariant(List<ProductVariantDto> productVariantDtos, Product product){
         return productVariantDtos.stream().map(productVariantDto -> {
             ProductVariant productVariant= new ProductVariant();
+            if(productVariantDto.getId() != null){
+                productVariant.setId(productVariantDto.getId());
+            }
             productVariant.setColor(productVariantDto.getColor());
             productVariant.setSize(productVariantDto.getSize());
             productVariant.setStockQuantity(productVariantDto.getStockQuantitiy());
@@ -126,6 +132,6 @@ public class ProductMapper {
                 .isPrimary(resources.isPrimary())
                 .build();
     }
+}   
 
-}
 

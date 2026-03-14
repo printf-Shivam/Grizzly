@@ -1,13 +1,13 @@
 package com.ecommerce.backend.auth.dto;
 
+import com.ecommerce.backend.entities.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.ecommerce.backend.entities.Address;
+
 import java.util.List;
 import java.util.UUID;
-
 
 @Builder
 @Data
