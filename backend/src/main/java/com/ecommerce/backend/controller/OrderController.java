@@ -2,6 +2,7 @@ package com.ecommerce.backend.controller;
 
 import com.ecommerce.backend.auth.dto.OrderResponse;
 import com.ecommerce.backend.dto.OrderDetails;
+import com.ecommerce.backend.dto.OrderItemDetail;
 import com.ecommerce.backend.dto.OrderRequest;
 import com.ecommerce.backend.entities.Order;
 import com.ecommerce.backend.services.OrderService;
