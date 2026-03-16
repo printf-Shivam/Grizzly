@@ -1,7 +1,7 @@
 # 🛍️ Grizzly
 
 **Grizzly** is a full-stack e-commerce web application built with **Spring Boot** (backend) and **React.js** (frontend).  
-It uses **PostgreSQL** as the database, integrates a **secure payment gateway**, and includes an **admin panel** for product, user, and order management.
+It uses **PostgreSQL** as the database and includes an **admin panel** for product, user, and order management.
 
 ---
 
