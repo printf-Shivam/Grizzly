@@ -16,7 +16,7 @@ import PaymentPage from "./pages/PaymentPage/PaymentPage";
 import Profile from "./pages/Account/Profile";
 import Order from "./pages/Account/Order";
 import Settings from "./pages/Account/Settings";
-
+import AdminPanel from "./pages/AdminPanel/AdminPanel"
 export const router = createBrowserRouter([
     {
         path:"/",
@@ -92,6 +92,10 @@ export const router = createBrowserRouter([
 {
     path:"/payment",
     element: <ProtectedRoute> <PaymentPage/> </ProtectedRoute>
+},
+{
+    path:"/admin/*",
+    element: <ProtectedRoute> <AdminPanel/> </ProtectedRoute>
 }
 
 ])

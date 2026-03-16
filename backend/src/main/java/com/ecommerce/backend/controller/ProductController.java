@@ -3,6 +3,7 @@ package com.ecommerce.backend.controller;
 import com.ecommerce.backend.dto.ProductDto;
 import com.ecommerce.backend.entities.Product;
 import com.ecommerce.backend.services.ProductService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(required = false, name = "categoryId")UUID categoryId, @RequestParam(required = false,name = "typeId") UUID typeId, @RequestParam(required = false) String slug){
+    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(required = false, name = "categoryId")UUID categoryId, @RequestParam(required = false,name = "typeId") UUID typeId, @RequestParam(required = false) String slug, HttpServletResponse response){
         List<ProductDto> productList = new ArrayList<>();
 
         if(StringUtils.isNotBlank(slug)){
@@ -34,6 +35,7 @@ public class ProductController {
         else {
             productList = productService.getAllProducts(categoryId, typeId);
         }
+        response.setHeader("Content-Range",String.valueOf(productList.size()));
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 
